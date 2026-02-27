@@ -5,10 +5,11 @@ import { WebSocketServer } from "ws";
 export function attachWebSocket(server: Server) {
     const wss = new WebSocketServer({ server })
 
-    wss.on("connection", () => {
+    wss.on("connection", (socket) => {
         const clientId = randomUUID()
-        // eslint-disable-next-line no-console
         console.log(`connected ${clientId}`)
+    
+        socket.send(JSON.stringify({ type: "connected", clientId }));
     });
 
     return wss;

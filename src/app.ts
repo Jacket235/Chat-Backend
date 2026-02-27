@@ -1,5 +1,6 @@
 import express from "express"
 import cors from "cors"
+import { wsRouter } from "./ws/ws.routes.js";
 
 export function createApp() {
     const app = express()
@@ -10,6 +11,8 @@ export function createApp() {
             credentials: true,
         })
     );
+
+    app.use(wsRouter)
 
     return app
 }
