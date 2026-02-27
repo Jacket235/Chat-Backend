@@ -34,6 +34,14 @@ export function attachWebSocket(server: Server) {
 
         sendJSON(socket, { type: "connected", clientID })
 
+        socket.on("message", (raw) => {
+            const data = JSON.parse(raw.toString())
+            if (data.type !== "chat_message") return
+
+            const text = data.text.trim()
+            broadcast({ type: "chat_message", clientID, text })
+        })
+
         socket.on("close", () => {
             clients.delete(socket);
         });
