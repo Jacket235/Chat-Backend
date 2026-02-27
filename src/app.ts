@@ -7,12 +7,13 @@ export function createApp() {
 
     app.use(
         cors({
-            origin: "http://localhost:5174",
+            origin: "http://localhost:5173", // http://192.168.10.64:5173
             credentials: true,
         })
     );
 
     app.use(wsRouter)
+    app.use(express.json())
 
     return app
 }

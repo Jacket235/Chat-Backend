@@ -6,6 +6,7 @@ type WSOutgoing =
     | { type: "connected"; clientID: string }
     | { type: "user_joined"; clientID: string }
     | { type: "chat_message"; clientID: string; text: string }
+    | { type: "user_left"; clientID: string }
 
 const clients = new Map<WebSocket, string>()
 
@@ -43,7 +44,8 @@ export function attachWebSocket(server: Server) {
         })
 
         socket.on("close", () => {
-            clients.delete(socket);
+            clients.delete(socket)
+            broadcast({ type: "user_left", clientID })
         });
     });
 
