@@ -19,11 +19,16 @@ export const postWSMessage: RequestHandler = (req, res) => {
             ? req.body.clientId.trim()
             : "server";
 
+    const username =
+        typeof req.body?.username === "string" && req.body.username.trim()
+            ? req.body.username.trim()
+            : clientId
+
     if (!text) {
         res.status(400).json({ message: "text is required" });
         return;
     }
 
-    broadcastChatMessage(text, clientId);
+    broadcastChatMessage(text, clientId, username);
     res.status(200).json({ ok: true });
 };
